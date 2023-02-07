@@ -1,23 +1,28 @@
 const express = require('express')
-const mongoose = require('mongoose')
 const path = require('path')
 const bodyParser = require('body-parser')
 const User = require('./models/User.js') 
 const bcrypt = require('bcryptjs')
+const cors = require('cors')
+const corsOptions = require('./config/CorsSettings.js')
+const jwt = require('jsonwebtoken')
+const mongoConfig = require('./config/MongoSettings.js')
+const handleRefresh = require('./controllers/RefreshTokenController.js')
+const cookieParser = require('cookie-parser')
+const handleLogOut = require('./controllers/LogOutController.js')
 
+require('dotenv').config()
+
+mongoConfig.initialize();
 
 const app = express()
-mongoose.set('strictQuery',false)
 
-mongoose.connect('mongodb://127.0.0.1:27017/Login-DB',{
-    useUnifiedTopology:true,
-    useNewUrlParser:true,
-})
-
-
+app.use(cors(corsOptions));
+app.use(bodyParser.json());
+app.use(cookieParser());
 
 app.use('/',express.static(path.join('../','frontend')))
-app.use(bodyParser.json())
+
 
 app.post('/register',async(req , res)=>{
     const {username , password:unencrypted} = req.body
@@ -56,12 +61,33 @@ app.post('/login',async (req,res)=>{
     const user = await User.findOne({username})
     if(user){
         if(bcrypt.compare(password,user.password)){
-            return res.json({status:'ok',message:'Login Successful'})
+
+            const accessToken = jwt.sign(
+                {'username':user.username},
+                process.env.ACCESS_TOKEN_SECRET,
+                {expiresIn: '5m'}
+            )
+            const refreshToken = jwt.sign(
+                {'username':user.username},
+                process.env.REFRESH_TOKEN_SECRET,
+                {expiresIn: '2h'}
+            )
+            await User.updateOne({username:user.username},{refreshToken})
+
+            res.cookie('jwt',refreshToken,{httpOnly:true, maxAge:2*60*60*1000, sameSite: 'None' , secure: true})
+
+            res.json({accessToken})
         }
     }
-    res.json({status:'error',error:'Invalid UserName/Password'})
+    else{
+        res.sendStatus(401)
+
+    }
+    
 })
 
+app.get('/refresh',handleRefresh)
+app.get('/logout',handleLogOut)
 app.listen(9000,()=>{
     console.log("Server running at 9000")
 })
