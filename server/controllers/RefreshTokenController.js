@@ -10,6 +10,7 @@ require('dotenv').config()
 
 async function handleRefresh(req,res,next){
     const cookies = req.cookies
+    console.log(cookies)
     if(!cookies || !cookies.jwt) {
         res.json({message:"No cookie"})
     }

@@ -17,9 +17,10 @@ mongoConfig.initialize();
 
 const app = express()
 
+app.use(cookieParser())
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
-app.use(cookieParser());
+
 
 app.use('/',express.static(path.join('../','frontend')))
 
@@ -60,12 +61,13 @@ app.post('/login',async (req,res)=>{
 
     const user = await User.findOne({username})
     if(user){
-        if(bcrypt.compare(password,user.password)){
-
+        const valid = await bcrypt.compare(password,user.password)
+        if(valid){
+            //console.log("in password")
             const accessToken = jwt.sign(
                 {'username':user.username},
                 process.env.ACCESS_TOKEN_SECRET,
-                {expiresIn: '5m'}
+                {expiresIn: '30s'}
             )
             const refreshToken = jwt.sign(
                 {'username':user.username},
@@ -74,9 +76,12 @@ app.post('/login',async (req,res)=>{
             )
             await User.updateOne({username:user.username},{refreshToken})
 
-            res.cookie('jwt',refreshToken,{httpOnly:true, maxAge:2*60*60*1000, sameSite: 'None' , secure: true})
-
-            res.json({accessToken})
+            res.cookie('jwt',refreshToken,{httpOnly:true, maxAge:2*60*60*1000 ,sameSite:'none'})
+            res.cookie('atk',accessToken,{httpOnly:true , maxAge:2*60*60*1000 , sameSite:'none'} )
+            res.json({'username':user.username})
+        }
+        else{
+            res.sendStatus(401)
         }
     }
     else{
@@ -88,6 +93,7 @@ app.post('/login',async (req,res)=>{
 
 app.get('/refresh',handleRefresh)
 app.get('/logout',handleLogOut)
+app.get('/verify',require('./middleware/verifyJWT'))
 app.listen(9000,()=>{
     console.log("Server running at 9000")
 })
