@@ -7,7 +7,25 @@ function LoginForm(){
         password:''
     })
     
-    const navigate = useNavigate();
+    const navigate = useNavigate()
+
+    React.useEffect(
+    ()=>{
+        console.log('check');
+        axios.get('http://localhost:9000/verifyAccessToken',{withCredentials:true}).then((response)=>{
+            console.log(response)
+            console.log("check")
+            navigate('/')
+        }
+            
+        )
+        .catch(()=>{
+            localStorage.clear()
+        })
+    },[])
+
+    
+
 
     const handleChange = (event)=>{
         const name = event.target.name
@@ -35,6 +53,7 @@ function LoginForm(){
         event.preventDefault()
         axios.post('http://localhost:9000/login',formData,config).then((response)=>{
             if (response.status === 200){
+                localStorage.setItem('Name',formData.username)
                 navigate('/')
             }
 
@@ -47,8 +66,10 @@ function LoginForm(){
     return(
         <div className="form" >
             <h1>LOGIN</h1>
-            <label htmlFor="username"></label><input type='text' name='username' id='username' onChange={handleChange} value={formData.username} autoComplete='off'/><br/><br/>
-            <label htmlFor="password"></label><input type='password' name='password' id='password' onChange={handleChange} value={formData.password} autoComplete='off'/><br/><br/>
+            <label htmlFor="username"></label>
+            <input type='text' name='username' id='username' onChange={handleChange} value={formData.username} autoComplete='off'/><br/><br/>
+            <label htmlFor="password"></label>
+            <input type='password' name='password' id='password' onChange={handleChange} value={formData.password} autoComplete='off'/><br/><br/>
             <input type='button' value='Login' onClick={handleLogin}/>
 
         </div>

@@ -8,7 +8,7 @@ function Home(){
     React.useEffect(
         ()=>{
             console.log("Home")
-            axios.get('http://localhost:9000/verify',{withCredentials:true}).then((response)=>{
+            axios.get('http://localhost:9000/verifyAccessToken',{withCredentials:true}).then((response)=>{
                 console.log(response.status)
                 if(response.status === 200){
                     setUser(localStorage.getItem('Name'))

@@ -4,7 +4,7 @@ require('dotenv').config()
 const verifyJWT= (req,res,next)=>{
     const cookie = req.cookies;
     if(!cookie?.atk){
-        res.sendStatus(403)
+        res.sendStatus(40)
     }
     else{
         const token = cookie.atk;
