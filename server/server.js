@@ -45,11 +45,12 @@ app.post('/register',async(req , res)=>{
     }
 
     const password = await bcrypt.hash(unencrypted,10)
-
+    const authorization = '10'
     try{
         const response = await User.create({
             username,
-            password
+            password,
+            authorization
         })
         console.log(response);
     }
@@ -99,7 +100,10 @@ app.post('/login',async (req,res)=>{
 
 app.get('/refresh',handleRefresh)
 app.get('/logout',handleLogOut)
-app.get('/verify',require('./middleware/verifyJWT'))
+app.get('/verifyAccessToken',require('./middleware/verifyJWT'))
+
+app.get('/refreshAccessToken',require('./controllers/RefreshTokenController')) 
+
 app.listen(9000,()=>{
     console.log("Server running at 9000")
 })

@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken')
 const cookieParser = require('cookie-parser')
-const mongoose = require('mongoose')
 const mongoConfig = require('../config/MongoSettings')
 const Users = require('../models/User')
 
@@ -12,7 +11,7 @@ async function handleRefresh(req,res,next){
     const cookies = req.cookies
     console.log(cookies)
     if(!cookies || !cookies.jwt) {
-        res.json({message:"No cookie"})
+        res.sendStatus(403)
     }
     else{
         refreshToken = cookies.jwt
@@ -20,6 +19,8 @@ async function handleRefresh(req,res,next){
         foundUser = await Users.findOne({refreshToken})
         if(!foundUser){
             res.sendStatus(403)
+            res.clearCookie('jwt',{httpOnly:true, maxAge:2*60*60*1000, sameSite:'None' , secure:true})
+            if (cookies.atk) res.clearCookie('atk',{httpOnly:true, maxAge:2*60*60*1000, sameSite:'None' , secure:true})
         }
         else{
             jwt.verify(
@@ -27,7 +28,9 @@ async function handleRefresh(req,res,next){
                 process.env.REFRESH_TOKEN_SECRET,
                 (error,decoded)=>{
                     if(error){
-                        //res.clearCookie('jwt',{httpOnly:true, maxAge:2*60*60*1000, sameSite:'None' , secure:true})
+                        if(cookies.atk) res.clearCookie('atk',{httpOnly:true, maxAge:2*60*60*1000, sameSite:'None' , secure:true})
+
+                        res.clearCookie('jwt',{httpOnly:true, maxAge:2*60*60*1000, sameSite:'None' , secure:true})
                         res.sendStatus(403)
                     }
                     else{
@@ -35,11 +38,11 @@ async function handleRefresh(req,res,next){
                             const accessToken = jwt.sign(
                                 {username:foundUser.username},
                                 process.env.ACCESS_TOKEN_SECRET,
-                                {expiresIn:'5m'}
+                                {expiresIn:'180s'}
                             )
+                            res.cookie('atk',{httpOnly:true, maxAge:2*60*60*1000, sameSite:'None' , secure:true})
 
-                            res.json({accessToken})
-                            next()
+                            next();
                         }
                     }
                 }
