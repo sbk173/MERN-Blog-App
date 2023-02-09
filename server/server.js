@@ -10,6 +10,8 @@ const mongoConfig = require('./config/MongoSettings.js')
 const handleRefresh = require('./controllers/RefreshTokenController.js')
 const cookieParser = require('cookie-parser')
 const handleLogOut = require('./controllers/LogOutController.js')
+const credentials = require('./middleware/controller')
+
 
 require('dotenv').config()
 
@@ -18,7 +20,11 @@ mongoConfig.initialize();
 const app = express()
 
 app.use(cookieParser())
+
+//app.use(credentials);
+
 app.use(cors(corsOptions));
+
 app.use(bodyParser.json());
 
 
@@ -76,8 +82,8 @@ app.post('/login',async (req,res)=>{
             )
             await User.updateOne({username:user.username},{refreshToken})
 
-            res.cookie('jwt',refreshToken,{httpOnly:true, maxAge:2*60*60*1000 ,sameSite:'none'})
-            res.cookie('atk',accessToken,{httpOnly:true , maxAge:2*60*60*1000 , sameSite:'none'} )
+            res.cookie('jwt',refreshToken,{httpOnly:true, maxAge:2*60*60*1000 ,sameSite:'None', secure: true})
+            res.cookie('atk',accessToken,{httpOnly:true , maxAge:2*60*60*1000 , sameSite:'None' , secure: true} )
             res.json({'username':user.username})
         }
         else{

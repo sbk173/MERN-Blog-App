@@ -1,5 +1,4 @@
-const whitelist = ['https://www.google.com','http://localhost:9000','http://localhost:3000']
-
+const whitelist = require('./AllowedOrigins.js')
 const corsOptions = {
     origin: (origin,callback)=>{
         if(whitelist.indexOf(origin) !== -1 || !origin){
@@ -10,7 +9,8 @@ const corsOptions = {
             callback(new Error("Access Denied"))
         }
     },
-    optionsSuccessStatus: 200
+    optionsSuccessStatus: 200,
+    credentials: true
 }
 
 module.exports = corsOptions;

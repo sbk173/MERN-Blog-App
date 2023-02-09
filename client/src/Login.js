@@ -1,6 +1,6 @@
 import React from "react";
 import axios from 'axios'
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 function LoginForm(){
     const [formData , setFormData] = React.useState({
         username:'',
@@ -22,17 +22,28 @@ function LoginForm(){
         })
     }
 
-    const handleLogin = (event)=>{
+    const handleLogin = async (event)=>{
         
+        const config = {
+            headers: {
+                "Content-Type": "application/json"
+            },
+            withCredentials: true
+        };
+
+
         event.preventDefault()
-        axios.post('http://localhost:9000/login',formData).then((response)=>{
-            if(response.status === 200){
-                const name = response.data.username
-                localStorage.setItem('Name',name)
+        axios.post('http://localhost:9000/login',formData,config).then((response)=>{
+            if (response.status === 200){
                 navigate('/')
             }
+
+        })
+        .catch((error)=>{
+            console.log("Invalid Username/Password")
         })
     }
+
     return(
         <div className="form" >
             <h1>LOGIN</h1>

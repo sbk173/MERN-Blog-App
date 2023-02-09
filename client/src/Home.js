@@ -4,19 +4,21 @@ import { useNavigate } from "react-router-dom"
 
 function Home(){
     const [user,setUser] = React.useState('')
-    const navigator = useNavigate()
+    const navigate = useNavigate()
     React.useEffect(
         ()=>{
             console.log("Home")
             axios.get('http://localhost:9000/verify',{withCredentials:true}).then((response)=>{
-                console.log(response)
+                console.log(response.status)
                 if(response.status === 200){
                     setUser(localStorage.getItem('Name'))
                 }
-                else{
-                    navigator('/login')
-                }
-            } )//call to verify JWT
+
+            } )
+            .catch((error)=>{
+                console.log(error)
+                navigate('/login')
+            })//call to verify JWT
         },
         []
     )
