@@ -23,9 +23,20 @@ function Home(){
         []
     )
 
+    const handleLogout = ()=>{
+        axios.get('http://localhost:9000/logout',{withCredentials:true}).then(()=>{
+            navigate('/login')
+        })
+        .catch(()=>{
+            navigate('/login')
+        })
+        localStorage.clear()
+    }
+
     return(
         <div>
             <h1>Hallo {user}</h1>
+            <button onClick={handleLogout}>Logout</button>
         </div>
     )
 }
