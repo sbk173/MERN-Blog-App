@@ -11,7 +11,7 @@ const handleRefresh = require('./controllers/RefreshTokenController.js')
 const cookieParser = require('cookie-parser')
 const handleLogOut = require('./controllers/LogOutController.js')
 const credentials = require('./middleware/controller')
-
+const fileUpload = require('express-fileupload')
 
 require('dotenv').config()
 
@@ -103,6 +103,17 @@ app.get('/logout',handleLogOut)
 app.get('/verifyAccessToken',require('./middleware/verifyJWT'))
 
 app.get('/refreshAccessToken',require('./controllers/RefreshTokenController')) 
+
+app.post('/api/upload',fileUpload({
+    createParentPath:true,
+    limits:{
+        fileSize: 5*1024*1024
+    }
+}),require('./middleware/checkType'),require('./middleware/saveUpload'),require('./controllers/PendingController'))
+
+app.get('/api/images/:id',(req,res,next)=>{
+    res.sendFile(path.resolve(path.join('../Files/thumbnails',req.params.id)))
+})
 
 app.listen(9000,()=>{
     console.log("Server running at 9000")

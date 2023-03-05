@@ -3,7 +3,7 @@ import {Route, Routes} from 'react-router-dom'
 import LoginForm from './Login';
 import Home from './Home';
 import RegistrationForm from './Register';
-import ArticleView from './ArticleView';
+import FileUpload from './FileUpload';
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
       <Route path='/' element={<Home/>}/>
       <Route path='/login' element={<LoginForm/>}/>
       <Route path='/register' element={<RegistrationForm/>}/>
-      <Route path='/article' element = {<ArticleView path='../public/DDCO_ASSIGNMENTS.pdf'/>}/>
+      <Route path='/upload' element={<FileUpload/>}/>
     </Routes>
 
   )

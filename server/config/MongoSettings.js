@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const initialize = ()=>{
     mongoose.set('strictQuery',false)
 
-    mongoose.connect('mongodb://127.0.0.1:27017/Login-DB',{
+    mongoose.connect('mongodb://127.0.0.1:27017/Blog-DB',{
         useUnifiedTopology:true,
         useNewUrlParser:true,
     })
