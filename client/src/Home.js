@@ -1,6 +1,7 @@
 import axios from "axios"
 import React from "react"
 import { useNavigate } from "react-router-dom"
+import Card from "./Card"
 
 function Home(){
     const [user,setUser] = React.useState('')
@@ -17,7 +18,7 @@ function Home(){
             } )
             .catch((error)=>{
                 console.log(error)
-                navigate('/login')
+                //navigate('/login')
             })//call to verify JWT
         },
         []
@@ -37,6 +38,11 @@ function Home(){
         <div>
             <h1>Hallo {user}</h1>
             <button onClick={handleLogout}>Logout</button>
+            <Card thumbnail='conductance.png' articlename='lol' creator='halp'/>
+            <Card thumbnail='conductance.png' articlename='lol' creator='halp'/>
+            <Card thumbnail='conductance.png' articlename='lol' creator='halp'/>
+            <Card thumbnail='conductance.png' articlename='lol' creator='halp'/>
+
         </div>
     )
 }

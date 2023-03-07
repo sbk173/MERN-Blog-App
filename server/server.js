@@ -111,9 +111,17 @@ app.post('/api/upload',fileUpload({
     }
 }),require('./middleware/checkType'),require('./middleware/saveUpload'),require('./controllers/PendingController'))
 
-app.get('/api/images/:id',(req,res,next)=>{
-    res.sendFile(path.resolve(path.join('../Files/thumbnails',req.params.id)))
+app.get('/api/:type/:id',(req,res,next)=>{
+    if(req.params.type === 'images'){
+        res.sendFile(path.resolve(path.join('../Files/thumbnails',req.params.id)))
+    }
+    else if (req.params.type === 'articles'){
+        res.sendFile(path.resolve(path.join('../Files/articles',req.params.id)))
+    }
+   
 })
+
+app.get('/api/acceptArticle',require('./controllers/ApproveArticle'))
 
 app.listen(9000,()=>{
     console.log("Server running at 9000")
