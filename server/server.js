@@ -121,7 +121,8 @@ app.get('/api/:type/:id',(req,res,next)=>{
    
 })
 
-app.get('/api/acceptArticle',require('./controllers/ApproveArticle'))
+app.patch('/api/acceptArticle',require('./controllers/ApproveArticle'))
+app.get('/models/:database',require('./controllers/DataController.js'))
 
 app.listen(9000,()=>{
     console.log("Server running at 9000")

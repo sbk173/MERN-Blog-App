@@ -35,13 +35,16 @@ function Home(){
     }
 
     return(
-        <div>
+        <div className="h-screen w-screen bg-gray-900">
             <h1>Hallo {user}</h1>
             <button onClick={handleLogout}>Logout</button>
+            <div className="items-center grid grid-cols-4 gap-4 content-start">
             <Card thumbnail='conductance.png' articlename='lol' creator='halp'/>
             <Card thumbnail='conductance.png' articlename='lol' creator='halp'/>
             <Card thumbnail='conductance.png' articlename='lol' creator='halp'/>
             <Card thumbnail='conductance.png' articlename='lol' creator='halp'/>
+            </div>
+            
 
         </div>
     )

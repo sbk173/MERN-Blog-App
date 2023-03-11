@@ -5,6 +5,7 @@ import Home from './Home';
 import RegistrationForm from './Register';
 import FileUpload from './FileUpload';
 import Card from './Card'
+import ApprovalPage from './ApprovalPage';
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
       <Route path='/login' element={<LoginForm/>}/>
       <Route path='/register' element={<RegistrationForm/>}/>
       <Route path='/upload' element={<FileUpload/>}/>
-      <Route path='/test' element={<Card thumbnail='conductance.png' articlename='lol' creator='halp'/>}/>
+      <Route path='/test' element={<ApprovalPage/>}/>
     </Routes>
 
   )

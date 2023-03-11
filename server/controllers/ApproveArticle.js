@@ -3,6 +3,7 @@ const PendingArticles = require('../models/PendingArticles')
 const AcceptedArticles = require('../models/AcceptedArticles')
 
 const approve = async (req,res,next)=>{
+    console.log("********",req.body)
     if(!req.body.id){
         res.sendStatus(204)
     }

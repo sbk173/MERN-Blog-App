@@ -16,7 +16,7 @@ function FileUpload(){
             } )
             .catch((error)=>{
                 console.log(error)
-                navigate('/login')
+                //navigate('/login')
             })//call to verify JWT
         },
         []
@@ -57,16 +57,33 @@ function FileUpload(){
     }
 
     return(
-        <div className='form'>
-            <label htmlFor='articlename' >Article Name</label>
-            <input type='text' id='articlename' onChange={handleArticle}/>
+        <div className='form h-screen w-screen flex justify-center items-center bg-gray-900'>
+            <div className='bg-gray-800 p-4 rounded'>
+                <div className='flex items-center justify-center m-3'>
+                    <h1 className='flex text-blue-500 font-bold text-2xl'>UPLOAD ARTICLE</h1>
+                </div>
+            <div className='m-4'>
+            
+            <div className='mb-4'>
+            <label htmlFor='articlename' className='block text-sky-100 text-lg font-bold mb-2'>Article Name</label>
+            <input type='text' id='articlename' className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-slate-300" onChange={handleArticle}/>
             <br/>
-            <input type='file' accept='image/*' onChange={handleImage}/>
+            </div>
+            <div className='text-sky-200'>
+            <input type='file' accept='image/*'  onChange={handleImage}/>
+            </div>
+            
             <br/>
-            <input type ='file' accept='application/pdf' onChange={handlePDF}/>
+            <div className='text-sky-200 mb-4'>
+            <input type ='file'  accept='application/pdf' onChange={handlePDF}/>
+            </div>
+            
 
-            {pdf && image && <input type='submit' onClick={handleSubmit}/>}
-            {(!pdf || !image) && <h3>Upload Required files</h3> }
+            {pdf && image && <input type='submit' className='bg-blue-700 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={handleSubmit}/>}
+            {(!pdf || !image) && <h3 className='text-sky-200'>Upload Required files</h3> }
+            </div>
+            </div>
+
         </div>
     )
 }
