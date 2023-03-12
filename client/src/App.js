@@ -6,6 +6,7 @@ import RegistrationForm from './Register';
 import FileUpload from './FileUpload';
 import Card from './Card'
 import ApprovalPage from './ApprovalPage';
+import ViewPdf from './ViewPdf';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Route path='/register' element={<RegistrationForm/>}/>
       <Route path='/upload' element={<FileUpload/>}/>
       <Route path='/test' element={<ApprovalPage/>}/>
+      <Route path='/view/article/' element={<ViewPdf/>}/>
     </Routes>
 
   )

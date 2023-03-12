@@ -4,13 +4,14 @@ const AcceptedArticles = require('../models/AcceptedArticles')
 
 const approve = async (req,res,next)=>{
     console.log("********",req.body)
-    if(!req.body.id){
+    if(!req.body.filename){
         res.sendStatus(204)
     }
     else{
-        const article = await PendingArticles.findOne({'_id':req.body.id})
+        const article = await PendingArticles.findOne({'filename':req.body.filename})
         if(article){
-            console.log(article)
+
+            console.log("ok",article)
             const a = {
                 articleName:article.articleName,
                 creator:article.creator,
