@@ -4,7 +4,6 @@ import LoginForm from './Login';
 import Home from './Home';
 import RegistrationForm from './Register';
 import FileUpload from './FileUpload';
-import Card from './Card'
 import ApprovalPage from './ApprovalPage';
 import ViewPdf from './ViewPdf';
 

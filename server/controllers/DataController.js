@@ -7,6 +7,11 @@ const DataController= async (req,res,next) => {
         console.log(articles)
         res.json(articles)
     }
+    else if(req.params.database == 'AcceptedArticles'){
+        const articles = await AcceptedArticles.find({})
+        console.log(articles)
+        res.json(articles)
+    }
 
 }
 

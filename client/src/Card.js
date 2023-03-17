@@ -4,7 +4,7 @@ function Card(props){
 
     return(
         <div >
-        <div className='card max-w-sm rounded-lg overflow-hidden shadow-lg bg-gray-800'>
+        <div className='card max-w-sm max-h-96 rounded-lg overflow-hidden shadow-lg bg-gray-800'>
             <img src={url+props.thumbnail} className="w-full" alt='Some IMG'></img>
             <div className='m-4 text-sky-100 font-bold'>
             <h3 className='text-2xl text-center' >{props.articlename}</h3>
