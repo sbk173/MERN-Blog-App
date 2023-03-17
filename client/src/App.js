@@ -6,6 +6,7 @@ import RegistrationForm from './Register';
 import FileUpload from './FileUpload';
 import ApprovalPage from './ApprovalPage';
 import ViewPdf from './ViewPdf';
+import Navbar from './Navbar';
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
       <Route path='/login' element={<LoginForm/>}/>
       <Route path='/register' element={<RegistrationForm/>}/>
       <Route path='/upload' element={<FileUpload/>}/>
-      <Route path='/test' element={<ApprovalPage/>}/>
+      <Route path='/test' element={<Navbar/>}/>
       <Route path='/view/article/' element={<ViewPdf/>}/>
     </Routes>
 

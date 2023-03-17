@@ -2,6 +2,7 @@ import axios from "axios"
 import React from "react"
 import { useNavigate } from "react-router-dom"
 import Card from "./Card"
+import Navbar from "./Navbar"
 
 function Home(){
     const [user,setUser] = React.useState('')
@@ -60,10 +61,11 @@ function Home(){
         })
     }
     return(
-        <div className="h-screen w-screen bg-gray-900">
-            <h1>Hallo {user}</h1>
-            <button onClick={handleLogout}>Logout</button>
-            <div className="items-center grid grid-cols-4 gap-4 content-start px-3">
+        <div className="h-full w-full bg-gray-900">
+            {/* <h1>Hallo {user}</h1>
+            <button onClick={handleLogout}>Logout</button> */}
+            <Navbar/>
+            <div className="items-center grid grid-cols-4 gap-4 content-start px-3 py-4">
             {b}
             <Card thumbnail='conductance.png' articlename='lol' creator='halp'/>
             <Card thumbnail='conductance.png' articlename='lol' creator='halp'/>
